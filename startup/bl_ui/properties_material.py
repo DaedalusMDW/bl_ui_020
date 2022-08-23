@@ -389,6 +389,7 @@ class MATERIAL_PT_shading(MaterialButtonsPanel, Panel):
 
 class MATERIAL_PT_transp(MaterialButtonsPanel, Panel):
     bl_label = "Transparency"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_RENDER'}
 
     @classmethod
@@ -687,6 +688,7 @@ class MATERIAL_PT_game_settings(MaterialButtonsPanel, Panel):
         col.prop(mat, "use_constant_world")
         col.prop(mat, "use_constant_mist")
 
+
 class MATERIAL_PT_strand(MaterialButtonsPanel, Panel):
     bl_label = "Strand"
     bl_options = {'DEFAULT_CLOSED'}
@@ -758,14 +760,17 @@ class MATERIAL_PT_options(MaterialButtonsPanel, Panel):
             col.prop(mat, "use_full_oversampling")
             col.prop(mat, "use_sky")
         col.prop(mat, "use_mist")
+
         if simple_material(base_mat):
             col.prop(mat, "invert_z")
             sub = col.row()
             sub.prop(mat, "offset_z")
             sub.active = mat.use_transparency and mat.transparency_method == 'Z_TRANSPARENCY'
+
         sub = col.column(align=True)
         sub.label(text="Light Group:")
         sub.prop(mat, "light_group", text="")
+
         row = sub.row(align=True)
         row.active = bool(mat.light_group)
         row.prop(mat, "use_light_group_exclusive", text="Exclusive")
@@ -773,16 +778,21 @@ class MATERIAL_PT_options(MaterialButtonsPanel, Panel):
 
         col = split.column()
         col.prop(mat, "use_face_texture")
+
         sub = col.column()
         sub.active = mat.use_face_texture
         sub.prop(mat, "use_face_texture_alpha")
+
         col.separator()
+
         col.prop(mat, "use_vertex_color_paint")
         col.prop(mat, "use_vertex_color_light")
         col.prop(mat, "use_object_color")
         col.prop(mat, "use_uv_project")
+
         if simple_material(base_mat):
             col.prop(mat, "pass_index")
+
 
 class MATERIAL_PT_game_options(MaterialButtonsPanel, Panel):
     bl_label = "Options"
@@ -804,13 +814,18 @@ class MATERIAL_PT_game_options(MaterialButtonsPanel, Panel):
 
         col = split.column()
         if simple_material(base_mat):
-            col.prop(mat, "invert_z")
-            sub = col.row()
-            sub.prop(mat, "offset_z")
-            sub.active = mat.use_transparency and mat.transparency_method == 'Z_TRANSPARENCY'
+            row = col.row()
+            row.prop(mat, "use_cast_shadows", text="Cast")
+            row.prop(mat, "use_cast_shadows_only", text="Cast Only")
+
+        col.prop(mat, "use_shadows", text="Receive")
+
+        col.separator()
+
         sub = col.column(align=True)
         sub.label(text="Light Group:")
         sub.prop(mat, "light_group", text="")
+
         row = sub.row(align=True)
         row.active = bool(mat.light_group)
         row.prop(mat, "use_light_group_exclusive", text="Exclusive")
@@ -822,6 +837,7 @@ class MATERIAL_PT_game_options(MaterialButtonsPanel, Panel):
         col.prop(mat, "use_vertex_color_light")
         col.prop(mat, "use_object_color")
         col.prop(mat, "use_instancing")
+
 
 class MATERIAL_PT_shadow(MaterialButtonsPanel, Panel):
     bl_label = "Shadow"
@@ -864,13 +880,16 @@ class MATERIAL_PT_shadow(MaterialButtonsPanel, Panel):
             col.prop(mat, "use_cast_shadows", text="Cast")
             col.prop(mat, "use_cast_shadows_only", text="Cast Only")
             col.prop(mat, "use_cast_buffer_shadows")
+
         sub = col.column()
         sub.active = mat.use_cast_buffer_shadows
         if simple_material(base_mat):
             sub.prop(mat, "shadow_cast_alpha", text="Casting Alpha")
+
         sub.prop(mat, "shadow_buffer_bias", text="Buffer Bias")
         if simple_material(base_mat):
             col.prop(mat, "use_cast_approximate")
+
 
 class MATERIAL_PT_game_shadow(MaterialButtonsPanel, Panel):
     bl_label = "Shadow"
@@ -900,6 +919,7 @@ class MATERIAL_PT_game_shadow(MaterialButtonsPanel, Panel):
         col = split.column()
         col.prop(mat, "use_shadows", text="Receive")
 
+
 class MATERIAL_PT_transp_game(MaterialButtonsPanel, Panel):
     bl_label = "Transparency"
     bl_options = {'DEFAULT_CLOSED'}
@@ -925,11 +945,23 @@ class MATERIAL_PT_transp_game(MaterialButtonsPanel, Panel):
         layout.active = mat.use_transparency
 
         split = layout.split()
+
         col = split.column()
-        col.active = mat.use_depth_transparency
-        col.prop(mat, "depth_transp_factor", text="Depth Factor")
+
+        sub = col.row()
+        sub.prop(mat, "depth_transp_factor", text="Depth Factor")
+        sub.active = mat.use_depth_transparency
+
+        if simple_material(base_mat):
+            sub = col.row()
+            sub.prop(mat, "offset_z")
+            sub.active = mat.transparency_method == 'Z_TRANSPARENCY'
+
         col = split.column()
         col.prop(mat, "use_depth_transparency")
+
+        if simple_material(base_mat):
+            col.prop(mat, "invert_z")
 
         if simple_material(base_mat):
             row = layout.row()
@@ -1113,26 +1145,26 @@ classes = (
     MATERIAL_PT_pipeline,
     MATERIAL_PT_diffuse,
     MATERIAL_PT_specular,
-    MATERIAL_PT_shading,
-    MATERIAL_PT_transp,
-    MATERIAL_PT_mirror,
-    MATERIAL_PT_sss,
     MATERIAL_PT_halo,
-    MATERIAL_PT_flare,
+    MATERIAL_PT_shading,
     MATERIAL_PT_game_settings,
-    MATERIAL_PT_strand,
     MATERIAL_PT_options,
     MATERIAL_PT_game_options,
     MATERIAL_PT_shadow,
-    MATERIAL_PT_game_shadow,
+    #MATERIAL_PT_game_shadow,
+    MATERIAL_PT_strand,
+    MATERIAL_PT_transp,
     MATERIAL_PT_transp_game,
+    MATERIAL_PT_sss,
+    MATERIAL_PT_mirror,
+    MATERIAL_PT_flare,
     MATERIAL_PT_volume_density,
     MATERIAL_PT_volume_shading,
-    MATERIAL_PT_volume_lighting,
-    MATERIAL_PT_volume_transp,
-    MATERIAL_PT_volume_integration,
     MATERIAL_PT_volume_options,
-    MATERIAL_PT_custom_props,
+    MATERIAL_PT_volume_lighting,
+    MATERIAL_PT_volume_integration,
+    MATERIAL_PT_volume_transp,
+    #MATERIAL_PT_custom_props,
 )
 
 if __name__ == "__main__":  # only for live edit.

@@ -1289,10 +1289,10 @@ classes = (
     SEQUENCER_PT_view,
     SEQUENCER_PT_view_safe_areas,
     SEQUENCER_PT_modifiers,
-    SEQUENCER_PT_grease_pencil,
-    SEQUENCER_PT_grease_pencil_palettecolor,
-    SEQUENCER_PT_grease_pencil_tools,
-    SEQUENCER_PT_custom_props,
+    #SEQUENCER_PT_grease_pencil,
+    #SEQUENCER_PT_grease_pencil_palettecolor,
+    #SEQUENCER_PT_grease_pencil_tools,
+    #SEQUENCER_PT_custom_props,
 )
 
 if __name__ == "__main__":  # only for live edit.

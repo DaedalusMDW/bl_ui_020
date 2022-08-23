@@ -42,6 +42,11 @@ class OBJECT_PT_context_object(ObjectButtonsPanel, Panel):
             row = layout.row()
             row.template_ID(context.scene.objects, "active")
 
+        row = layout.split(percentage=0.6)
+
+        row.column().prop(context.object, "layers", text="")
+        row.column().prop(context.object, "pass_index")
+
 
 class OBJECT_PT_transform(ObjectButtonsPanel, Panel):
     bl_label = "Transform"
@@ -53,20 +58,46 @@ class OBJECT_PT_transform(ObjectButtonsPanel, Panel):
 
         row = layout.row()
 
-        row.column().prop(ob, "location")
-        if ob.rotation_mode == 'QUATERNION':
-            row.column().prop(ob, "rotation_quaternion", text="Rotation")
-        elif ob.rotation_mode == 'AXIS_ANGLE':
-            #row.column().label(text="Rotation")
-            #row.column().prop(pchan, "rotation_angle", text="Angle")
-            #row.column().prop(pchan, "rotation_axis", text="Axis")
-            row.column().prop(ob, "rotation_axis_angle", text="Rotation")
-        else:
-            row.column().prop(ob, "rotation_euler", text="Rotation")
+        col = row.column(align=True)
+        col.label(text="Location:")
+        sub = col.split(percentage=0.8, align=True)
 
-        row.column().prop(ob, "scale")
+        sub.prop(ob, "location", text="")
+        sub.prop(ob, "lock_location", text="")
+
+        col = row.column(align=True)
+        col.label(text="Rotation:")
+        sub = col.split(percentage=0.8, align=True)
+
+        if ob.rotation_mode == 'QUATERNION':
+            sub.prop(ob, "rotation_quaternion", text="")
+            box = sub.column(align=True)
+            box.prop(ob, "lock_rotation_w", text="")
+            box.prop(ob, "lock_rotation", text="")
+            box.active=ob.lock_rotations_4d
+
+        elif ob.rotation_mode == 'AXIS_ANGLE':
+            sub.prop(ob, "rotation_axis_angle", text="")
+            box = sub.column(align=True)
+            box.prop(ob, "lock_rotation_w", text="")
+            box.prop(ob, "lock_rotation", text="")
+            box.active=ob.lock_rotations_4d
+
+        else:
+            sub.prop(ob, "rotation_euler", text="")
+            sub.prop(ob, "lock_rotation", text="")
+
+        col = row.column(align=True)
+        col.label(text="Scale:")
+
+        sub = col.split(percentage=0.8, align=True)
+        sub.prop(ob, "scale", text="")
+        sub.prop(ob, "lock_scale", text="")
 
         layout.prop(ob, "rotation_mode")
+
+        if ob.rotation_mode in {'QUATERNION', 'AXIS_ANGLE'}:
+            layout.prop(ob, "lock_rotations_4d", text="Lock Rotation")
 
 
 class OBJECT_PT_delta_transform(ObjectButtonsPanel, Panel):
@@ -84,10 +115,6 @@ class OBJECT_PT_delta_transform(ObjectButtonsPanel, Panel):
         if ob.rotation_mode == 'QUATERNION':
             row.column().prop(ob, "delta_rotation_quaternion", text="Rotation")
         elif ob.rotation_mode == 'AXIS_ANGLE':
-            #row.column().label(text="Rotation")
-            #row.column().prop(pchan, "delta_rotation_angle", text="Angle")
-            #row.column().prop(pchan, "delta_rotation_axis", text="Axis")
-            #row.column().prop(ob, "delta_rotation_axis_angle", text="Rotation")
             row.column().label(text="Not for Axis-Angle")
         else:
             row.column().prop(ob, "delta_rotation_euler", text="Delta Rotation")
@@ -135,10 +162,10 @@ class OBJECT_PT_relations(ObjectButtonsPanel, Panel):
 
         split = layout.split()
 
-        col = split.column()
-        col.prop(ob, "layers")
-        col.separator()
-        col.prop(ob, "pass_index")
+        #col = split.column()
+        #col.prop(ob, "layers")
+        #col.separator()
+        #col.prop(ob, "pass_index")
 
         col = split.column()
         col.label(text="Parent:")
@@ -146,10 +173,33 @@ class OBJECT_PT_relations(ObjectButtonsPanel, Panel):
 
         sub = col.column()
         sub.prop(ob, "parent_type", text="")
+
         parent = ob.parent
         if parent and ob.parent_type == 'BONE' and parent.type == 'ARMATURE':
             sub.prop_search(ob, "parent_bone", parent.data, "bones", text="")
+        if parent and ob.parent_type == 'VERTEX':
+            sub.prop(ob, "parent_vertices", text="", index=0)
+        if parent and ob.parent_type == 'VERTEX_3':
+            sub.prop(ob, "parent_vertices", text="")
         sub.active = (parent is not None)
+
+        col = split.column()
+        col.label(text="Tracking Axes:")
+        col.prop(ob, "track_axis", text="Axis")
+        col.prop(ob, "up_axis", text="Up Axis")
+
+        layout.separator()
+
+        split = layout.split()
+
+        col = split.column()
+        col.prop(ob, "use_slow_parent")
+        col.active = ((ob.parent is not None) and (ob.use_slow_parent))
+        col.prop(ob, "slow_parent_offset", text="Offset")
+
+        col = split.column()
+        col.prop(ob, "use_extra_recalc_object")
+        col.prop(ob, "use_extra_recalc_data")
 
 
 class OBJECT_PT_relations_extras(ObjectButtonsPanel, Panel):
@@ -373,13 +423,13 @@ classes = (
     OBJECT_PT_delta_transform,
     OBJECT_PT_transform_locks,
     OBJECT_PT_relations,
-    OBJECT_PT_relations_extras,
-    GROUP_MT_specials,
+    #OBJECT_PT_relations_extras,
     OBJECT_PT_groups,
     OBJECT_PT_display,
     OBJECT_PT_duplication,
+    GROUP_MT_specials,
     OBJECT_PT_motion_paths,
-    OBJECT_PT_custom_props,
+    #OBJECT_PT_custom_props,
 )
 
 if __name__ == "__main__":  # only for live edit.

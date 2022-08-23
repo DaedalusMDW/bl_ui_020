@@ -344,6 +344,7 @@ class NODE_PT_active_node_properties(Panel):
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
     bl_label = "Properties"
+    bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):
@@ -535,8 +536,8 @@ classes = (
     NODE_MT_node_color_presets,
     NODE_MT_node_color_specials,
     NODE_PT_active_node_generic,
-    NODE_PT_active_node_color,
     NODE_PT_active_node_properties,
+    NODE_PT_active_node_color,
     NODE_PT_backdrop,
     NODE_PT_quality,
     NODE_UL_interface_sockets,

@@ -58,11 +58,13 @@ class VIEW3D_PT_tools_transform(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "objectmode"
     bl_label = "Transform"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Transform:")
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
@@ -71,15 +73,17 @@ class VIEW3D_PT_tools_transform(View3DPanel, Panel):
         col.operator("transform.mirror", text="Mirror")
 
 
-class VIEW3D_PT_tools_object(View3DPanel, Panel):
-    bl_category = "Tools"
-    bl_context = "objectmode"
-    bl_label = "Edit"
-
-    def draw(self, context):
-        layout = self.layout
+#class VIEW3D_PT_tools_object(View3DPanel, Panel):
+#    bl_category = "Tools"
+#    bl_context = "objectmode"
+#    bl_label = "Edit"
+#    bl_options = {'HIDE_HEADER'}
+#
+#    def draw(self, context):
+#        layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Edit:")
         col.operator("object.duplicate_move", text="Duplicate")
         col.operator("object.duplicate_move_linked", text="Duplicate Linked")
 
@@ -212,6 +216,7 @@ class VIEW3D_PT_tools_relations(View3DPanel, Panel):
     bl_category = "Relations"
     bl_context = "objectmode"
     bl_label = "Relations"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -247,6 +252,7 @@ class VIEW3D_PT_tools_animation(View3DPanel, Panel):
     bl_category = "Animation"
     bl_context = "objectmode"
     bl_label = "Animation"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -275,6 +281,7 @@ class VIEW3D_PT_tools_rigid_body(View3DPanel, Panel):
     bl_category = "Physics"
     bl_context = "objectmode"
     bl_label = "Rigid Body Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -304,11 +311,13 @@ class VIEW3D_PT_tools_transform_mesh(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "mesh_edit"
     bl_label = "Transform"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Transform:")
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
@@ -316,13 +325,14 @@ class VIEW3D_PT_tools_transform_mesh(View3DPanel, Panel):
         col.operator("transform.push_pull", text="Push/Pull")
 
 
-class VIEW3D_PT_tools_meshedit(View3DPanel, Panel):
-    bl_category = "Tools"
-    bl_context = "mesh_edit"
-    bl_label = "Mesh Tools"
-
-    def draw(self, context):
-        layout = self.layout
+#class VIEW3D_PT_tools_meshedit(View3DPanel, Panel):
+#    bl_category = "Tools"
+#    bl_context = "mesh_edit"
+#    bl_label = "Mesh Tools"
+#    bl_options = {'HIDE_HEADER'}
+#
+#    def draw(self, context):
+#        layout = self.layout
 
         col = layout.column(align=True)
         col.label(text="Deform:")
@@ -363,7 +373,7 @@ class VIEW3D_PT_tools_meshedit(View3DPanel, Panel):
         col.label(text="Remove:")
         col.menu("VIEW3D_MT_edit_mesh_delete")
         col.operator_menu_enum("mesh.merge", "type")
-        col.operator("mesh.remove_doubles")
+        #col.operator("mesh.remove_doubles")
 
 
 class VIEW3D_PT_tools_meshweight(View3DPanel, Panel):
@@ -396,6 +406,7 @@ class VIEW3D_PT_tools_add_mesh_edit(View3DPanel, Panel):
     bl_category = "Create"
     bl_context = "mesh_edit"
     bl_label = "Add Meshes"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -409,6 +420,7 @@ class VIEW3D_PT_tools_shading(View3DPanel, Panel):
     bl_category = "Shading / UVs"
     bl_context = "mesh_edit"
     bl_label = "Shading"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -418,10 +430,14 @@ class VIEW3D_PT_tools_shading(View3DPanel, Panel):
         row = col.row(align=True)
         row.operator("mesh.faces_shade_smooth", text="Smooth")
         row.operator("mesh.faces_shade_flat", text="Flat")
+
+        col = layout.column(align=True)
         col.label(text="Edges:")
         row = col.row(align=True)
         row.operator("mesh.mark_sharp", text="Smooth").clear = True
         row.operator("mesh.mark_sharp", text="Sharp")
+
+        col = layout.column(align=True)
         col.label(text="Vertices:")
         row = col.row(align=True)
         props = row.operator("mesh.mark_sharp", text="Smooth")
@@ -435,18 +451,26 @@ class VIEW3D_PT_tools_shading(View3DPanel, Panel):
         col.operator("mesh.flip_normals", text="Flip Direction")
         col.operator("mesh.set_normals_from_faces", text="Set From Faces")
 
+        col = layout.column(align=True)
+        col.label(text="Extras:")
+        col.operator("mesh.edge_split")
+        col.operator("mesh.remove_doubles")
 
-class VIEW3D_PT_tools_uvs(View3DPanel, Panel):
-    bl_category = "Shading / UVs"
-    bl_context = "mesh_edit"
-    bl_label = "UVs"
 
-    def draw(self, context):
-        layout = self.layout
+#class VIEW3D_PT_tools_uvs(View3DPanel, Panel):
+#    bl_category = "Shading / UVs"
+#    bl_context = "mesh_edit"
+#    bl_label = "UVs"
+#    bl_options = {'HIDE_HEADER'}
+#
+#    def draw(self, context):
+#        layout = self.layout
 
         col = layout.column(align=True)
         col.label(text="UV Mapping:")
         col.menu("VIEW3D_MT_uv_map", text="Unwrap")
+
+        col = layout.column(align=True)
         col.operator("mesh.mark_seam").clear = False
         col.operator("mesh.mark_seam", text="Clear Seam").clear = True
 
@@ -455,6 +479,7 @@ class VIEW3D_PT_tools_meshedit_options(View3DPanel, Panel):
     bl_category = "Options"
     bl_context = "mesh_edit"
     bl_label = "Mesh Options"
+    bl_options = {'HIDE_HEADER'}
 
     @classmethod
     def poll(cls, context):
@@ -493,11 +518,13 @@ class VIEW3D_PT_tools_transform_curve(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "curve_edit"
     bl_label = "Transform"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Transform:")
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
@@ -507,13 +534,14 @@ class VIEW3D_PT_tools_transform_curve(View3DPanel, Panel):
         col.operator("transform.transform", text="Shrink/Fatten").mode = 'CURVE_SHRINKFATTEN'
 
 
-class VIEW3D_PT_tools_curveedit(View3DPanel, Panel):
-    bl_category = "Tools"
-    bl_context = "curve_edit"
-    bl_label = "Curve Tools"
-
-    def draw(self, context):
-        layout = self.layout
+#class VIEW3D_PT_tools_curveedit(View3DPanel, Panel):
+#    bl_category = "Tools"
+#    bl_context = "curve_edit"
+#    bl_label = "Curve Tools"
+#    bl_options = {'HIDE_HEADER'}
+#
+#    def draw(self, context):
+#        layout = self.layout
 
         col = layout.column(align=True)
         col.label(text="Curve:")
@@ -548,6 +576,7 @@ class VIEW3D_PT_tools_add_curve_edit(View3DPanel, Panel):
     bl_category = "Create"
     bl_context = "curve_edit"
     bl_label = "Add Curves"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -561,6 +590,7 @@ class VIEW3D_PT_tools_curveedit_options_stroke(View3DPanel, Panel):
     bl_category = "Options"
     bl_context = "curve_edit"
     bl_label = "Curve Stroke"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -696,6 +726,7 @@ class VIEW3D_PT_tools_armatureedit_transform(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "armature_edit"
     bl_label = "Transform"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -710,6 +741,7 @@ class VIEW3D_PT_tools_armatureedit(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "armature_edit"
     bl_label = "Armature Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -734,6 +766,7 @@ class VIEW3D_PT_tools_armatureedit_options(View3DPanel, Panel):
     bl_category = "Options"
     bl_context = "armature_edit"
     bl_label = "Armature Options"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         arm = context.active_object.data
@@ -748,6 +781,7 @@ class VIEW3D_PT_tools_mballedit(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "mball_edit"
     bl_label = "Meta Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -767,6 +801,7 @@ class VIEW3D_PT_tools_add_mball_edit(View3DPanel, Panel):
     bl_category = "Create"
     bl_context = "mball_edit"
     bl_label = "Add Metaball"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -783,6 +818,7 @@ class VIEW3D_PT_tools_latticeedit(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "lattice_edit"
     bl_label = "Lattice Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -808,6 +844,7 @@ class VIEW3D_PT_tools_posemode(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "posemode"
     bl_label = "Pose Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -857,6 +894,7 @@ class VIEW3D_PT_tools_posemode_options(View3DPanel, Panel):
     bl_category = "Options"
     bl_context = "posemode"
     bl_label = "Pose Options"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         arm = context.active_object.data
@@ -2012,30 +2050,30 @@ class VIEW3D_PT_tools_history(View3DPanel, Panel):
 classes = (
     VIEW3D_PT_tools_add_object,
     VIEW3D_PT_tools_transform,
-    VIEW3D_PT_tools_object,
+    #VIEW3D_PT_tools_object,
     VIEW3D_PT_tools_relations,
     VIEW3D_PT_tools_animation,
     VIEW3D_PT_tools_rigid_body,
-    VIEW3D_PT_tools_transform_mesh,
-    VIEW3D_PT_tools_meshedit,
-    VIEW3D_PT_tools_meshweight,
     VIEW3D_PT_tools_add_mesh_edit,
+    VIEW3D_PT_tools_transform_mesh,
+    #VIEW3D_PT_tools_meshedit,
+    VIEW3D_PT_tools_meshweight,
     VIEW3D_PT_tools_shading,
-    VIEW3D_PT_tools_uvs,
+    #VIEW3D_PT_tools_uvs,
     VIEW3D_PT_tools_meshedit_options,
-    VIEW3D_PT_tools_transform_curve,
-    VIEW3D_PT_tools_curveedit,
     VIEW3D_PT_tools_add_curve_edit,
+    VIEW3D_PT_tools_transform_curve,
+    #VIEW3D_PT_tools_curveedit,
     VIEW3D_PT_tools_curveedit_options_stroke,
+    VIEW3D_PT_tools_add_surface_edit,
     VIEW3D_PT_tools_transform_surface,
     VIEW3D_PT_tools_surfaceedit,
-    VIEW3D_PT_tools_add_surface_edit,
     VIEW3D_PT_tools_textedit,
     VIEW3D_PT_tools_armatureedit,
     VIEW3D_PT_tools_armatureedit_transform,
     VIEW3D_PT_tools_armatureedit_options,
-    VIEW3D_PT_tools_mballedit,
     VIEW3D_PT_tools_add_mball_edit,
+    VIEW3D_PT_tools_mballedit,
     VIEW3D_PT_tools_latticeedit,
     VIEW3D_PT_tools_posemode,
     VIEW3D_PT_tools_posemode_options,

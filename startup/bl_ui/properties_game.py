@@ -55,6 +55,7 @@ class PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
             layout.prop(game, "jump_speed")
             layout.prop(game, "fall_speed")
             layout.prop(game, "jump_max")
+            layout.prop(game, "radius")
 
         elif physics_type in {'DYNAMIC', 'RIGID_BODY'}:
             split = layout.split()
@@ -958,8 +959,10 @@ class OBJECT_MT_lod_tools(Menu):
         layout.operator("object.lod_generate", text="Generate")
         layout.operator("object.lod_clear_all", text="Clear All", icon='PANEL_CLOSE')
 
+
 class OBJECT_MT_culling(ObjectButtonsPanel, Panel):
     bl_label = "Culling Bounding Volume"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     @classmethod
@@ -974,8 +977,9 @@ class OBJECT_MT_culling(ObjectButtonsPanel, Panel):
         layout.label(text="Predefined Bound:")
         layout.prop(game, "predefined_bound", "")
 
+
 class OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
-    bl_label = "Levels of Detail"
+    bl_label = "Game Settings"
     bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
@@ -985,12 +989,20 @@ class OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
         return context.scene.render.engine in cls.COMPAT_ENGINES and ob.type not in {'CAMERA', 'EMPTY', 'LAMP'}
 
     def draw(self, context):
-        layout = self.layout
         ob = context.object
+        og = context.active_object.game
         gs = context.scene.game_settings
+
+        layout = self.layout
 
         col = layout.column()
         col.prop(ob, "lod_factor", text="Distance Factor")
+
+        col.separator()
+
+        #if len(ob.lod_levels) == 0:
+        #    box = col.box()
+        #    box.label(text="No LOD states applied")
 
         for i, level in enumerate(ob.lod_levels):
             if i == 0:
@@ -1017,6 +1029,10 @@ class OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
         row.operator("object.lod_add", text="Add", icon='ZOOMIN')
         row.menu("OBJECT_MT_lod_tools", text="", icon='TRIA_DOWN')
 
+        col.separator()
+
+        col.prop(og, "predefined_bound", text="Predefined Bound")
+
 
 classes = (
     PHYSICS_PT_game_physics,
@@ -1041,7 +1057,7 @@ classes = (
     WORLD_PT_game_mist,
     DATA_PT_shadow_game,
     OBJECT_MT_lod_tools,
-    OBJECT_MT_culling,
+    #OBJECT_MT_culling,
     OBJECT_PT_levels_of_detail,
 )
 

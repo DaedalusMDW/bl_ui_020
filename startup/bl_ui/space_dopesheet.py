@@ -481,8 +481,8 @@ classes = (
     DOPESHEET_MT_channel,
     DOPESHEET_MT_key,
     DOPESHEET_MT_key_transform,
-    DOPESHEET_MT_gpencil_channel,
-    DOPESHEET_MT_gpencil_frame,
+    #DOPESHEET_MT_gpencil_channel,
+    #DOPESHEET_MT_gpencil_frame,
     DOPESHEET_MT_delete,
 )
 
