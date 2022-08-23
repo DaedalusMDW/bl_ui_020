@@ -58,15 +58,19 @@ class OBJECT_PT_transform(ObjectButtonsPanel, Panel):
 
         row = layout.row()
 
-        col = row.column(align=True)
+        col = row.column()
         col.label(text="Location:")
-        sub = col.split(percentage=0.8, align=True)
 
+        sub = col.split(percentage=0.8, align=True)
         sub.prop(ob, "location", text="")
         sub.prop(ob, "lock_location", text="")
 
-        col = row.column(align=True)
+        if ob.rotation_mode in {'QUATERNION', 'AXIS_ANGLE'}:
+            col.prop(ob, "lock_rotations_4d", text="Lock Rotation")
+
+        col = row.column()
         col.label(text="Rotation:")
+
         sub = col.split(percentage=0.8, align=True)
 
         if ob.rotation_mode == 'QUATERNION':
@@ -87,17 +91,27 @@ class OBJECT_PT_transform(ObjectButtonsPanel, Panel):
             sub.prop(ob, "rotation_euler", text="")
             sub.prop(ob, "lock_rotation", text="")
 
-        col = row.column(align=True)
+        col = row.column()
         col.label(text="Scale:")
 
         sub = col.split(percentage=0.8, align=True)
         sub.prop(ob, "scale", text="")
         sub.prop(ob, "lock_scale", text="")
 
-        layout.prop(ob, "rotation_mode")
+        row = layout.row()
 
-        if ob.rotation_mode in {'QUATERNION', 'AXIS_ANGLE'}:
-            layout.prop(ob, "lock_rotations_4d", text="Lock Rotation")
+        row.column().prop(ob, "delta_location")
+
+        if ob.rotation_mode == 'QUATERNION':
+            row.column().prop(ob, "delta_rotation_quaternion", text="Rotation")
+        elif ob.rotation_mode == 'AXIS_ANGLE':
+            row.column().label(text="Not for Axis-Angle")
+        else:
+            row.column().prop(ob, "delta_rotation_euler", text="Delta Rotation")
+
+        row.column().prop(ob, "delta_scale")
+
+        layout.prop(ob, "rotation_mode")
 
 
 class OBJECT_PT_delta_transform(ObjectButtonsPanel, Panel):
@@ -420,8 +434,8 @@ class OBJECT_PT_custom_props(ObjectButtonsPanel, PropertyPanel, Panel):
 classes = (
     OBJECT_PT_context_object,
     OBJECT_PT_transform,
-    OBJECT_PT_delta_transform,
-    OBJECT_PT_transform_locks,
+    #OBJECT_PT_delta_transform,
+    #OBJECT_PT_transform_locks,
     OBJECT_PT_relations,
     #OBJECT_PT_relations_extras,
     OBJECT_PT_groups,
