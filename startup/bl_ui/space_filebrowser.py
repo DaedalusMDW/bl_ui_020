@@ -95,6 +95,7 @@ class FILEBROWSER_HT_header(Header):
 
 
 class FILEBROWSER_UL_dir(bpy.types.UIList):
+
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
         direntry = item
         # space = context.space_data
@@ -127,6 +128,7 @@ class FILEBROWSER_PT_system_folders(Panel):
     bl_region_type = 'TOOLS'
     bl_category = "Bookmarks"
     bl_label = "System"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -143,6 +145,7 @@ class FILEBROWSER_PT_system_bookmarks(Panel):
     bl_region_type = 'TOOLS'
     bl_category = "Bookmarks"
     bl_label = "System Bookmarks"
+    bl_options = {'HIDE_HEADER'}
 
     @classmethod
     def poll(cls, context):
@@ -175,6 +178,7 @@ class FILEBROWSER_PT_bookmarks(Panel):
     bl_region_type = 'TOOLS'
     bl_category = "Bookmarks"
     bl_label = "Bookmarks"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout

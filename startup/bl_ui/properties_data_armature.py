@@ -343,7 +343,7 @@ classes = (
     DATA_PT_ghost,
     DATA_PT_iksolver_itasc,
     DATA_PT_motion_paths,
-    DATA_PT_custom_props_arm,
+    #DATA_PT_custom_props_arm,
 )
 
 if __name__ == "__main__":  # only for live edit.

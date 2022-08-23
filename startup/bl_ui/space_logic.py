@@ -24,6 +24,7 @@ class LOGIC_PT_components(bpy.types.Panel):
     bl_space_type = 'LOGIC_EDITOR'
     bl_region_type = 'UI'
     bl_label = 'Components'
+    bl_options = {'HIDE_HEADER'}
 
     @classmethod
     def poll(cls, context):
@@ -59,6 +60,7 @@ class LOGIC_PT_properties(Panel):
     bl_space_type = 'LOGIC_EDITOR'
     bl_region_type = 'UI'
     bl_label = "Properties"
+    bl_options = {'HIDE_HEADER'}
 
     @classmethod
     def poll(cls, context):
@@ -91,28 +93,56 @@ class LOGIC_PT_properties(Panel):
                 props.name = "Text"
                 props.type = 'STRING'
 
-        props = layout.operator("object.game_property_new", text="Add Game Property", icon='ZOOMIN')
-        props.name = ""
+        #props = layout.operator("object.game_property_new", text="Add Game Property", icon='ZOOMIN')
+        #props.name = ""
+
+        ## Add New Buttons ##
+        row = layout.row()
+
+        props = row.operator("object.game_property_new", text="Float", icon='ZOOMIN')
+        props.name = 'float'
+        props.type = 'FLOAT'
+
+        props = row.operator("object.game_property_new", text="Integer", icon='ZOOMIN')
+        props.name = 'int'
+        props.type = 'INT'
+
+        props = row.operator("object.game_property_new", text="String", icon='ZOOMIN')
+        props.name = 'string'
+        props.type = 'STRING'
+
+        props = row.operator("object.game_property_new", text="Boolean", icon='ZOOMIN')
+        props.name = 'bool'
+        props.type = 'BOOL'
 
         for i, prop in enumerate(game.properties):
 
             if is_font and i == prop_index:
                 continue
 
-            box = layout.box()
-            row = box.row()
+            box = layout.row()
+            row = box.row(align=True)
+            row.prop(prop, "show_debug", text="", toggle=True, icon='INFO')
             row.prop(prop, "name", text="")
+
+            row = box.row()
             row.prop(prop, "type", text="")
             row.prop(prop, "value", text="")
-            row.prop(prop, "show_debug", text="", toggle=True, icon='INFO')
+
+            row = box.column(align=True)
             sub = row.row(align=True)
+            sub.scale_y = 0.5
             props = sub.operator("object.game_property_move", text="", icon='TRIA_UP')
             props.index = i
             props.direction = 'UP'
+            sub = row.row(align=True)
+            sub.scale_y = 0.5
             props = sub.operator("object.game_property_move", text="", icon='TRIA_DOWN')
             props.index = i
             props.direction = 'DOWN'
-            row.operator("object.game_property_remove", text="", icon='X', emboss=False).index = i
+
+            row = box.row()
+            row.operator("object.game_property_remove", text="", icon='X', emboss=True).index = i
 
 
 class LOGIC_MT_logicbricks_add(Menu):

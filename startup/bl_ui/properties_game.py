@@ -194,6 +194,8 @@ class PHYSICS_PT_game_physics(PhysicsButtonsPanel, Panel):
             col = layout.column()
             col.prop(game, "use_actor", text="Detect Actors")
             col.prop(ob, "hide_render", text="Invisible")
+            col.label(text="Attributes:")
+            col.prop(game, "radius")
 
         elif physics_type in {'INVISIBLE', 'NO_COLLISION', 'OCCLUDER'}:
             layout.prop(ob, "hide_render", text="Invisible")
@@ -320,6 +322,7 @@ class RENDER_PT_embedded(RenderButtonsPanel, Panel):
 
 class RENDER_PT_game_player(RenderButtonsPanel, Panel):
     bl_label = "Standalone Player"
+    bl_options = {'HIDE_HEADER'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     def draw(self, context):
@@ -327,30 +330,73 @@ class RENDER_PT_game_player(RenderButtonsPanel, Panel):
         layout = self.layout
         not_osx = sys.platform != "darwin"
 
+        rd = context.scene.render
         gs = context.scene.game_settings
 
-        row = layout.row()
-        row.operator("wm.blenderplayer_start", text="Start")
-        row = layout.row()
-        row.label(text="Resolution:")
-        row = layout.row(align=True)
-        row.active = not_osx or not gs.show_fullscreen
-        row.prop(gs, "resolution_x", slider=False, text="X")
-        row.prop(gs, "resolution_y", slider=False, text="Y")
-        row = layout.row()
-        col = row.column()
-        col.prop(gs, "show_fullscreen")
+       ###
+       # row = layout.row()
+       # row.operator("wm.blenderplayer_start", text="Start")
+       # row = layout.row()
+       # row.label(text="Resolution:")
+       # row = layout.row(align=True)
+       # row.active = not_osx or not gs.show_fullscreen
+       # row.prop(gs, "resolution_x", slider=False, text="X")
+       # row.prop(gs, "resolution_y", slider=False, text="Y")
+       # row = layout.row()
+       # col = row.column()
+       # col.prop(gs, "show_fullscreen")
+
+       # if not_osx:
+       #     col = row.column()
+       #     col.prop(gs, "use_desktop")
+       #     col.active = gs.show_fullscreen
+
+       # col = layout.column()
+       # col.label(text="Quality:")
+       # col = layout.column(align=True)
+       # col.prop(gs, "depth", text="Bit Depth", slider=False)
+       # col.prop(gs, "frequency", text="Refresh Rate", slider=False)
+       ###
+
+        split = layout.split(percentage=0.5)
+        split.operator("wm.blenderplayer_start", text="Launch")
+
+        split.prop(gs, "show_fullscreen")
 
         if not_osx:
-            col = row.column()
-            col.prop(gs, "use_desktop")
-            col.active = gs.show_fullscreen
+            split = split.column()
+            split.prop(gs, "use_desktop")
+            split.active = gs.show_fullscreen
 
-        col = layout.column()
-        col.label(text="Quality:")
-        col = layout.column(align=True)
-        col.prop(gs, "depth", text="Bit Depth", slider=False)
-        col.prop(gs, "frequency", text="Refresh Rate", slider=False)
+        row = layout.row(align=True)
+        row.label(text="Camera:")
+        row.prop(rd, "resolution_x", slider=False, text="X")
+        row.prop(rd, "resolution_y", slider=False, text="Y")
+
+        row = layout.row(align=True)
+        row.label(text="Resolution:")
+        row.prop(gs, "resolution_x", slider=False, text="X")
+        row.prop(gs, "resolution_y", slider=False, text="Y")
+
+        row = layout.row(align=True)
+        row.label(text="Quality:")
+        row.prop(gs, "frequency", text="Refresh Rate", slider=False)
+        row.prop(gs, "depth", text="Bit Depth", slider=False)
+
+        split = layout.split()
+
+        col = split.column()
+        row = col.row()
+        row.label(text="Vsync:")
+        row.prop(gs, "vsync", text="")
+
+        col = split.column()
+        row = col.row()
+        row.label(text="Anti-Aliasing:")
+        row.prop(gs, "samples", text="")
+        row = col.row()
+        row.label(text="HDR:")
+        row.prop(gs, "hdr", text="")
 
 
 class RENDER_PT_game_stereo(RenderButtonsPanel, Panel):
@@ -402,21 +448,29 @@ class RENDER_PT_game_system(RenderButtonsPanel, Panel):
         layout = self.layout
 
         gs = context.scene.game_settings
+
         split = layout.split(percentage=0.4)
 
-        col = split.column()
-        col.prop(gs, "use_frame_rate")
-        col.prop(gs, "use_deprecation_warnings")
+        #col = split.column()
+        #col.prop(gs, "use_frame_rate")
+        #col.prop(gs, "use_deprecation_warnings")
 
-        col = split.column()
-        col.prop(gs, "vsync")
-        col.prop(gs, "samples")
-        col.prop(gs, "hdr")
+        #col = split.column()
+        #col.prop(gs, "vsync")
+        #col.prop(gs, "samples")
+        #col.prop(gs, "hdr")
 
         row = layout.row()
-        col = row.column()
-        col.label("Exit Key:")
-        col.prop(gs, "exit_key", text="", event=True)
+        row.prop(gs, "use_frame_rate")
+        row.prop(gs, "use_restrict_animation_updates", text="Restrict Updates")
+
+        row = layout.row()
+        row.label("Exit Key:")
+        row.prop(gs, "exit_key", text="", event=True)
+
+        row = layout.row()
+        row.label("Animation Framerate:")
+        row.prop(context.scene.render, "fps", text="", slider=False)
 
 
 class RENDER_PT_game_animations(RenderButtonsPanel, Panel):
@@ -428,12 +482,14 @@ class RENDER_PT_game_animations(RenderButtonsPanel, Panel):
 
         gs = context.scene.game_settings
 
-        layout.prop(context.scene.render, "fps", text="Animation Frame Rate", slider=False)
-        layout.prop(gs, "use_restrict_animation_updates")
+        row = layout.row()
+        row.prop(context.scene.render, "fps", text="Animation Framerate", slider=False)
+        row.prop(gs, "use_restrict_animation_updates", text="Restrict Updates")
 
 
 class RENDER_PT_game_display(RenderButtonsPanel, Panel):
     bl_label = "Display"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     def draw(self, context):
@@ -448,6 +504,17 @@ class RENDER_PT_game_display(RenderButtonsPanel, Panel):
         col.label(text="Framing:")
         col.row().prop(gs, "frame_type", expand=True)
         col.prop(gs, "frame_color", text="")
+
+        stereo_mode = gs.stereo
+
+        # stereo options:
+        layout.label(text="Stereoscopic:")
+        layout.row().prop(gs, "stereo", expand=True)
+
+        # stereo:
+        if stereo_mode == 'STEREO':
+            layout.prop(gs, "stereo_mode")
+            layout.prop(gs, "stereo_eye_separation")
 
 
 class RENDER_PT_game_debug(RenderButtonsPanel, Panel):
@@ -465,12 +532,21 @@ class RENDER_PT_game_debug(RenderButtonsPanel, Panel):
         col.prop(gs, "show_framerate_profile", text="Framerate and Profile")
         col.prop(gs, "show_debug_properties", text="Properties")
         col.prop(gs, "show_physics_visualization", text="Physics Visualization")
+        col.prop(gs, "use_deprecation_warnings")
 
         col = split.column()
-        col.prop(gs, "show_bounding_box", text="Bounding Box")
-        col.prop(gs, "show_armatures", text="Armatures")
-        col.prop(gs, "show_camera_frustum", text="Camera Frustum")
-        col.prop(gs, "show_shadow_frustum", text="Shadow Frustum")
+        split = col.split(percentage=0.5)
+
+        col = split.column()
+        col.label(text="Bounding Box:")
+        col.label(text="Armatures:")
+        col.label(text="Camera Frustum:")
+        col.label(text="Shadow Frustum:")
+        col = split.column()
+        col.prop(gs, "show_bounding_box", text="")
+        col.prop(gs, "show_armatures", text="")
+        col.prop(gs, "show_camera_frustum", text="")
+        col.prop(gs, "show_shadow_frustum", text="")
 
 
 class SceneButtonsPanel:
@@ -624,6 +700,7 @@ class SCENE_PT_game_navmesh(SceneButtonsPanel, Panel):
 
 class SCENE_PT_game_hysteresis(SceneButtonsPanel, Panel):
     bl_label = "Level of Detail"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     @classmethod
@@ -644,6 +721,7 @@ class SCENE_PT_game_hysteresis(SceneButtonsPanel, Panel):
 
 class SCENE_PT_game_console(SceneButtonsPanel, Panel):
     bl_label = "Python Console"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     @classmethod
@@ -898,6 +976,7 @@ class OBJECT_MT_culling(ObjectButtonsPanel, Panel):
 
 class OBJECT_PT_levels_of_detail(ObjectButtonsPanel, Panel):
     bl_label = "Levels of Detail"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     @classmethod
@@ -943,14 +1022,14 @@ classes = (
     PHYSICS_PT_game_physics,
     PHYSICS_PT_game_collision_bounds,
     PHYSICS_PT_game_obstacles,
-    RENDER_PT_embedded,
+    #RENDER_PT_embedded,
     RENDER_PT_game_player,
-    RENDER_PT_game_stereo,
     RENDER_PT_game_shading,
     RENDER_PT_game_system,
-    RENDER_PT_game_animations,
-    RENDER_PT_game_display,
+    #RENDER_PT_game_animations,
     RENDER_PT_game_debug,
+    RENDER_PT_game_display,
+    #RENDER_PT_game_stereo,
     SCENE_PT_game_physics,
     SCENE_PT_game_physics_obstacles,
     SCENE_PT_game_navmesh,

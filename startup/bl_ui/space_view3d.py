@@ -3226,7 +3226,7 @@ class VIEW3D_PT_view3d_cursor(Panel):
         layout = self.layout
 
         view = context.space_data
-        layout.column().prop(view, "cursor_location", text="Location")
+        layout.column().prop(view, "cursor_location", text="")
 
 
 class VIEW3D_PT_view3d_name(Panel):
@@ -3896,8 +3896,8 @@ classes = (
     VIEW3D_MT_edit_mesh_clean,
     VIEW3D_MT_edit_mesh_delete,
     VIEW3D_MT_edit_mesh_showhide,
-    VIEW3D_MT_edit_gpencil,
-    VIEW3D_MT_edit_gpencil_delete,
+    #VIEW3D_MT_edit_gpencil,
+    #VIEW3D_MT_edit_gpencil_delete,
     VIEW3D_MT_edit_curve,
     VIEW3D_MT_edit_curve_ctrlpoints,
     VIEW3D_MT_edit_curve_segments,
@@ -3915,13 +3915,13 @@ classes = (
     VIEW3D_MT_edit_armature_parent,
     VIEW3D_MT_edit_armature_roll,
     VIEW3D_MT_edit_armature_delete,
-    VIEW3D_MT_edit_gpencil_transform,
-    VIEW3D_MT_edit_gpencil_interpolate,
-    VIEW3D_PT_grease_pencil,
-    VIEW3D_PT_grease_pencil_palettecolor,
+    #VIEW3D_MT_edit_gpencil_transform,
+    #VIEW3D_MT_edit_gpencil_interpolate,
+    #VIEW3D_PT_grease_pencil,
+    #VIEW3D_PT_grease_pencil_palettecolor,
     VIEW3D_PT_view3d_properties,
     VIEW3D_PT_view3d_cursor,
-    VIEW3D_PT_view3d_name,
+    #VIEW3D_PT_view3d_name,
     VIEW3D_PT_view3d_display,
     VIEW3D_PT_view3d_stereo,
     VIEW3D_PT_view3d_shading,
@@ -3931,8 +3931,8 @@ classes = (
     VIEW3D_PT_view3d_curvedisplay,
     VIEW3D_PT_background_image,
     VIEW3D_PT_transform_orientations,
-    VIEW3D_PT_etch_a_ton,
-    VIEW3D_PT_context_properties,
+    #VIEW3D_PT_etch_a_ton,
+    #VIEW3D_PT_context_properties,
 )
 
 

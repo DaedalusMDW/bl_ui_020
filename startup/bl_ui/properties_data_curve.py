@@ -442,7 +442,7 @@ classes = (
     DATA_PT_font,
     DATA_PT_paragraph,
     DATA_PT_text_boxes,
-    DATA_PT_custom_props_curve,
+    #DATA_PT_custom_props_curve,
 )
 
 if __name__ == "__main__":  # only for live edit.

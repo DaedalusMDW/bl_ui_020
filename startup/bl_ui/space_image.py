@@ -1,4 +1,4 @@
-# ##### BEGIN GPL LICENSE BLOCK #####
+﻿# ##### BEGIN GPL LICENSE BLOCK #####
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -580,10 +580,35 @@ class IMAGE_PT_active_mask_point(MASK_PT_point, Panel):
     bl_region_type = 'UI'
 
 
+class IMAGE_PT_view_cursor(Panel):
+    bl_space_type = 'IMAGE_EDITOR'
+    bl_region_type = 'UI'
+    bl_label = "2D Cursor"
+
+    @classmethod
+    def poll(cls, context):
+        sima = context.space_data
+        return (sima and (sima.image or sima.show_uvedit))
+
+    def draw(self, context):
+        layout = self.layout
+
+        sima = context.space_data
+        ima = sima.image
+        show_uvedit = sima.show_uvedit
+        show_maskedit = sima.show_maskedit
+        uvedit = sima.uv_editor
+
+        if show_uvedit or show_maskedit:
+            col = layout.column()
+            col.prop(sima, "cursor_location", text="")
+
+
 class IMAGE_PT_image_properties(Panel):
     bl_space_type = 'IMAGE_EDITOR'
     bl_region_type = 'UI'
     bl_label = "Image"
+    bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):
@@ -603,6 +628,7 @@ class IMAGE_PT_game_properties(Panel):
     bl_space_type = 'IMAGE_EDITOR'
     bl_region_type = 'UI'
     bl_label = "Game Properties"
+    bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):
@@ -664,56 +690,44 @@ class IMAGE_PT_view_properties(Panel):
         show_maskedit = sima.show_maskedit
         uvedit = sima.uv_editor
 
-        split = layout.split()
+        col = layout.column()
 
-        col = split.column()
-        if ima:
-            col.prop(ima, "display_aspect", text="Aspect Ratio")
+        if show_uvedit:
+            col.label(text="Face Display:")
+            col.prop(uvedit, "show_faces")
+            col.prop(sima, "show_repeat", text="Repeat Image")
+            col.prop(uvedit, "show_stretch", text="Stretch")
+            sub = col.row()
+            sub.active = uvedit.show_stretch
+            sub.prop(uvedit, "draw_stretch_type", expand=True)
 
-            col = split.column()
-            col.label(text="Coordinates:")
-            col.prop(sima, "show_repeat", text="Repeat")
-            if show_uvedit:
-                col.prop(uvedit, "show_normalized_coords", text="Normalized")
+            col.prop(uvedit, "show_other_objects", text="Show Selected Objects")
+            sub = col.row()
+            sub.active = uvedit.show_other_objects
+            sub.prop(uvedit, "other_uv_filter", text="Filter")
 
-        elif show_uvedit:
+            col.separator()
+
+            col.label(text="Edge Display:")
+            col.prop(uvedit, "show_modified_edges", text="Show Modifiers")#, icon='MODIFIER')
+            col.prop(uvedit, "show_smooth_edges", text="Smooth")
+
+            col.separator()
+
+            col.prop(uvedit, "edge_draw_type", expand=True)
+
+            col.separator()
+
             col.label(text="Coordinates:")
             col.prop(uvedit, "show_normalized_coords", text="Normalized")
 
-        if show_uvedit or show_maskedit:
-            col = layout.column()
-            col.label("Cursor Location:")
-            col.row().prop(sima, "cursor_location", text="")
-
-        if show_uvedit:
+        if ima:
             col.separator()
+            col.prop(ima, "display_aspect", text="Aspect Ratio")
 
-            col.label(text="UVs:")
-            col.row().prop(uvedit, "edge_draw_type", expand=True)
-
-            split = layout.split()
-
-            col = split.column()
-            col.prop(uvedit, "show_faces")
-            col.prop(uvedit, "show_smooth_edges", text="Smooth")
-            col.prop(uvedit, "show_modified_edges", text="Modified")
-
-            col = split.column()
-            col.prop(uvedit, "show_stretch", text="Stretch")
-            sub = col.column()
-            sub.active = uvedit.show_stretch
-            sub.row().prop(uvedit, "draw_stretch_type", expand=True)
-
-            col = layout.column()
-            col.prop(uvedit, "show_other_objects")
-            row = col.row()
-            row.active = uvedit.show_other_objects
-            row.prop(uvedit, "other_uv_filter", text="Filter")
-
-        if show_render and ima:
-            layout.separator()
-            render_slot = ima.render_slots.active
-            layout.prop(render_slot, "name", text="Slot Name")
+            if show_render:
+                render_slot = ima.render_slots.active
+                col.prop(render_slot, "name", text="Slot Name")
 
 
 class IMAGE_PT_tools_transform_uvs(Panel, UVToolsPanel):
@@ -1352,9 +1366,9 @@ classes = (
     IMAGE_PT_mask_display,
     IMAGE_PT_active_mask_spline,
     IMAGE_PT_active_mask_point,
-    IMAGE_PT_image_properties,
-    IMAGE_PT_game_properties,
+    IMAGE_PT_view_cursor,
     IMAGE_PT_view_properties,
+    IMAGE_PT_image_properties,
     IMAGE_PT_tools_transform_uvs,
     IMAGE_PT_tools_align_uvs,
     IMAGE_PT_tools_uvs,
@@ -1377,13 +1391,14 @@ classes = (
     IMAGE_PT_view_vectorscope,
     IMAGE_PT_sample_line,
     IMAGE_PT_scope_sample,
-    IMAGE_PT_grease_pencil,
-    IMAGE_PT_grease_pencil_palettecolor,
-    IMAGE_PT_tools_grease_pencil_draw,
-    IMAGE_PT_tools_grease_pencil_edit,
-    IMAGE_PT_tools_grease_pencil_sculpt,
-    IMAGE_PT_tools_grease_pencil_brush,
-    IMAGE_PT_tools_grease_pencil_brushcurves,
+    IMAGE_PT_game_properties,
+    #IMAGE_PT_grease_pencil,
+    #IMAGE_PT_grease_pencil_palettecolor,
+    #IMAGE_PT_tools_grease_pencil_draw,
+    #IMAGE_PT_tools_grease_pencil_edit,
+    #IMAGE_PT_tools_grease_pencil_sculpt,
+    #IMAGE_PT_tools_grease_pencil_brush,
+    #IMAGE_PT_tools_grease_pencil_brushcurves,
 )
 
 if __name__ == "__main__":  # only for live edit.

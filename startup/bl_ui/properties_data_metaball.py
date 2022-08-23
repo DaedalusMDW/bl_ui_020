@@ -141,7 +141,7 @@ classes = (
     DATA_PT_metaball,
     DATA_PT_mball_texture_space,
     DATA_PT_metaball_element,
-    DATA_PT_custom_props_metaball,
+    #DATA_PT_custom_props_metaball,
 )
 
 if __name__ == "__main__":  # only for live edit.

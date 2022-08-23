@@ -114,6 +114,8 @@ class DOPESHEET_HT_header(Header):
         layout = self.layout
 
         st = context.space_data
+        scene = context.scene
+        screen = context.screen
         toolsettings = context.tool_settings
 
         row = layout.row(align=True)
@@ -131,10 +133,10 @@ class DOPESHEET_HT_header(Header):
             layout.template_ID(st, "action", new="action.new", unlink="action.unlink")
 
             row = layout.row(align=True)
-            row.operator("action.push_down", text="Push Down", icon='NLA_PUSHDOWN')
-            row.operator("action.stash", text="Stash", icon='FREEZE')
+            row.operator("action.push_down", text="", icon='NLA_PUSHDOWN') #"Push Down"
+            row.operator("action.stash", text="", icon='FREEZE') #"Stash"
 
-        layout.prop(st.dopesheet, "show_summary", text="Summary")
+        layout.prop(st.dopesheet, "show_summary", text="") #"Summary"
 
         if st.mode == 'DOPESHEET':
             dopesheet_filter(layout, context)
@@ -173,6 +175,27 @@ class DOPESHEET_HT_header(Header):
         row.operator("action.paste", text="", icon='PASTEDOWN')
         if st.mode not in ('GPENCIL', 'MASK'):
             row.operator("action.paste", text="", icon='PASTEFLIPDOWN').flipped = True
+
+        layout.separator()
+
+        row = layout.row(align=True)
+        row.scale_x = 0.67
+
+        row.prop(scene, "frame_start", text="")
+        row.prop(scene, "frame_end", text="")
+
+        layout.separator()
+
+        row = layout.row(align=True)
+
+        if not screen.is_animation_playing:
+            sub = row.row(align=True)
+            sub.scale_x = 2.0
+            sub.operator("screen.animation_play", text="", icon='PLAY')
+        else:
+            sub = row.row(align=True)
+            sub.scale_x = 2.0
+            sub.operator("screen.animation_play", text="", icon='PAUSE')
 
 
 class DOPESHEET_MT_editor_menus(Menu):

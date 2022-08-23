@@ -406,7 +406,7 @@ classes = (
     DATA_PT_uv_texture,
     DATA_PT_vertex_colors,
     DATA_PT_customdata,
-    DATA_PT_custom_props_mesh,
+    #DATA_PT_custom_props_mesh,
 )
 
 if __name__ == "__main__":  # only for live edit.

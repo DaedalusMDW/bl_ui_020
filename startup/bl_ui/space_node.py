@@ -296,7 +296,7 @@ class NODE_PT_active_node_generic(Panel):
     bl_space_type = 'NODE_EDITOR'
     bl_region_type = 'UI'
     bl_label = "Node"
-#    bl_options = {'HIDE_HEADER'}
+    bl_options = {'HIDE_HEADER'}
 
     @classmethod
     def poll(cls, context):
@@ -540,14 +540,14 @@ classes = (
     NODE_PT_backdrop,
     NODE_PT_quality,
     NODE_UL_interface_sockets,
-    NODE_PT_grease_pencil,
-    NODE_PT_grease_pencil_palettecolor,
-    NODE_PT_grease_pencil_tools,
-    NODE_PT_tools_grease_pencil_draw,
-    NODE_PT_tools_grease_pencil_edit,
-    NODE_PT_tools_grease_pencil_sculpt,
-    NODE_PT_tools_grease_pencil_brush,
-    NODE_PT_tools_grease_pencil_brushcurves,
+    #NODE_PT_grease_pencil,
+    #NODE_PT_grease_pencil_palettecolor,
+    #NODE_PT_grease_pencil_tools,
+    #NODE_PT_tools_grease_pencil_draw,
+    #NODE_PT_tools_grease_pencil_edit,
+    #NODE_PT_tools_grease_pencil_sculpt,
+    #NODE_PT_tools_grease_pencil_brush,
+    #NODE_PT_tools_grease_pencil_brushcurves,
 )
 
 

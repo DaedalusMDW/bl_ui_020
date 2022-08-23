@@ -116,6 +116,7 @@ class VIEW3D_PT_tools_add_object(View3DPanel, Panel):
     bl_category = "Create"
     bl_context = "objectmode"
     bl_label = "Add Primitive"
+    bl_options = {'HIDE_HEADER'}
 
     @staticmethod
     def draw_add_mesh(layout, label=False):
@@ -2009,9 +2010,9 @@ class VIEW3D_PT_tools_history(View3DPanel, Panel):
 
 
 classes = (
+    VIEW3D_PT_tools_add_object,
     VIEW3D_PT_tools_transform,
     VIEW3D_PT_tools_object,
-    VIEW3D_PT_tools_add_object,
     VIEW3D_PT_tools_relations,
     VIEW3D_PT_tools_animation,
     VIEW3D_PT_tools_rigid_body,
@@ -2061,13 +2062,13 @@ classes = (
     VIEW3D_PT_tools_projectpaint,
     VIEW3D_MT_tools_projectpaint_stencil,
     VIEW3D_PT_tools_particlemode,
-    VIEW3D_PT_tools_grease_pencil_draw,
-    VIEW3D_PT_tools_grease_pencil_edit,
-    VIEW3D_PT_tools_grease_pencil_interpolate,
-    VIEW3D_PT_tools_grease_pencil_sculpt,
-    VIEW3D_PT_tools_grease_pencil_brush,
-    VIEW3D_PT_tools_grease_pencil_brushcurves,
-    VIEW3D_PT_tools_history,
+    #VIEW3D_PT_tools_grease_pencil_draw,
+    #VIEW3D_PT_tools_grease_pencil_edit,
+    #VIEW3D_PT_tools_grease_pencil_interpolate,
+    #VIEW3D_PT_tools_grease_pencil_sculpt,
+    #VIEW3D_PT_tools_grease_pencil_brush,
+    #VIEW3D_PT_tools_grease_pencil_brushcurves,
+    #VIEW3D_PT_tools_history,
 )
 
 if __name__ == "__main__":  # only for live edit.
