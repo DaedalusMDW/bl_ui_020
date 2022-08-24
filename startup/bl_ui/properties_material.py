@@ -959,13 +959,15 @@ class MATERIAL_PT_transp_game(MaterialButtonsPanel, Panel):
 
         col = split.column()
         col.prop(mat, "use_depth_transparency")
-
         if simple_material(base_mat):
-            col.prop(mat, "invert_z")
+            col.prop(mat, "transparency_method", text="")
 
-        if simple_material(base_mat):
-            row = layout.row()
-            row.prop(mat, "transparency_method", expand=True)
+        #if simple_material(base_mat):
+        #    col.prop(mat, "invert_z")
+
+        #if simple_material(base_mat):
+        #    row = layout.row()
+        #    row.prop(mat, "transparency_method", expand=True)
 
         layout.prop(mat, "alpha")
         layout.prop(mat, "specular_alpha", text="Specular")

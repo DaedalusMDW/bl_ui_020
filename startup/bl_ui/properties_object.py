@@ -98,18 +98,22 @@ class OBJECT_PT_transform(ObjectButtonsPanel, Panel):
         sub.prop(ob, "scale", text="")
         sub.prop(ob, "lock_scale", text="")
 
+        layout.separator()
+
         row = layout.row()
 
-        row.column().prop(ob, "delta_location")
+        row.column().prop(ob, "delta_location", text="Delta Location")
 
         if ob.rotation_mode == 'QUATERNION':
-            row.column().prop(ob, "delta_rotation_quaternion", text="Rotation")
+            row.column().prop(ob, "delta_rotation_quaternion", text="Delta Rotation")
         elif ob.rotation_mode == 'AXIS_ANGLE':
             row.column().label(text="Not for Axis-Angle")
         else:
             row.column().prop(ob, "delta_rotation_euler", text="Delta Rotation")
 
-        row.column().prop(ob, "delta_scale")
+        row.column().prop(ob, "delta_scale", text="Delta Scale")
+
+        layout.separator()
 
         layout.prop(ob, "rotation_mode")
 
