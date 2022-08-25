@@ -647,11 +647,13 @@ class VIEW3D_PT_tools_transform_surface(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "surface_edit"
     bl_label = "Transform"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Transform:")
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
@@ -661,6 +663,7 @@ class VIEW3D_PT_tools_surfaceedit(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "surface_edit"
     bl_label = "Surface Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -687,6 +690,7 @@ class VIEW3D_PT_tools_add_surface_edit(View3DPanel, Panel):
     bl_category = "Create"
     bl_context = "surface_edit"
     bl_label = "Add Surfaces"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -703,6 +707,7 @@ class VIEW3D_PT_tools_textedit(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "text_edit"
     bl_label = "Text Tools"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         layout = self.layout
@@ -732,6 +737,7 @@ class VIEW3D_PT_tools_armatureedit_transform(View3DPanel, Panel):
         layout = self.layout
 
         col = layout.column(align=True)
+        col.label(text="Transform:")
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
@@ -2054,6 +2060,7 @@ classes = (
     VIEW3D_PT_tools_relations,
     VIEW3D_PT_tools_animation,
     VIEW3D_PT_tools_rigid_body,
+
     VIEW3D_PT_tools_add_mesh_edit,
     VIEW3D_PT_tools_transform_mesh,
     #VIEW3D_PT_tools_meshedit,
@@ -2061,22 +2068,30 @@ classes = (
     VIEW3D_PT_tools_shading,
     #VIEW3D_PT_tools_uvs,
     VIEW3D_PT_tools_meshedit_options,
+
     VIEW3D_PT_tools_add_curve_edit,
     VIEW3D_PT_tools_transform_curve,
     #VIEW3D_PT_tools_curveedit,
     VIEW3D_PT_tools_curveedit_options_stroke,
+
     VIEW3D_PT_tools_add_surface_edit,
     VIEW3D_PT_tools_transform_surface,
     VIEW3D_PT_tools_surfaceedit,
+
     VIEW3D_PT_tools_textedit,
-    VIEW3D_PT_tools_armatureedit,
+
     VIEW3D_PT_tools_armatureedit_transform,
+    VIEW3D_PT_tools_armatureedit,
     VIEW3D_PT_tools_armatureedit_options,
+
     VIEW3D_PT_tools_add_mball_edit,
     VIEW3D_PT_tools_mballedit,
+
     VIEW3D_PT_tools_latticeedit,
+
     VIEW3D_PT_tools_posemode,
     VIEW3D_PT_tools_posemode_options,
+
     VIEW3D_PT_imapaint_tools_missing,
     VIEW3D_PT_tools_brush,
     TEXTURE_UL_texpaintslots,
@@ -2092,6 +2107,7 @@ classes = (
     VIEW3D_PT_sculpt_options,
     VIEW3D_PT_sculpt_symmetry,
     VIEW3D_PT_tools_brush_appearance,
+
     VIEW3D_PT_tools_weightpaint,
     VIEW3D_PT_tools_weightpaint_options,
     VIEW3D_PT_tools_vertexpaint,
@@ -2100,6 +2116,7 @@ classes = (
     VIEW3D_PT_tools_projectpaint,
     VIEW3D_MT_tools_projectpaint_stencil,
     VIEW3D_PT_tools_particlemode,
+
     #VIEW3D_PT_tools_grease_pencil_draw,
     #VIEW3D_PT_tools_grease_pencil_edit,
     #VIEW3D_PT_tools_grease_pencil_interpolate,
