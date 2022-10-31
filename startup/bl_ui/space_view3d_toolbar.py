@@ -846,6 +846,28 @@ class VIEW3D_PT_tools_latticeedit(View3DPanel, Panel):
 # ********** default tools for pose-mode ****************
 
 
+class DAE_PoseROTMODEOperator(bpy.types.Operator):
+    bl_idname = "pose.setrotmode"
+    bl_label = "Rotation Mode"
+
+    def execute(self, context):
+        obj = bpy.context.active_object
+        for posebone in obj.pose.bones:
+            posebone.rotation_mode = context.active_pose_bone.rotation_mode
+        return {'FINISHED'}
+
+
+class DAE_PoseRELPARENTOperator(bpy.types.Operator):
+    bl_idname = "pose.setrelparent"
+    bl_label = "Relative Parenting"
+
+    def execute(self, context):
+        obj = bpy.context.active_object
+        for posebone in obj.pose.bones:
+            posebone.bone.use_relative_parent = context.active_pose_bone.bone.use_relative_parent
+        return {'FINISHED'}
+
+
 class VIEW3D_PT_tools_posemode(View3DPanel, Panel):
     bl_category = "Tools"
     bl_context = "posemode"
@@ -860,6 +882,11 @@ class VIEW3D_PT_tools_posemode(View3DPanel, Panel):
         col.operator("transform.translate")
         col.operator("transform.rotate")
         col.operator("transform.resize", text="Scale")
+
+        col = layout.column(align=True)
+        col.label(text="Copy From Active:")
+        col.operator('pose.setrotmode')
+        col.operator('pose.setrelparent')
 
         col = layout.column(align=True)
         col.label(text="In-Between:")
@@ -906,6 +933,7 @@ class VIEW3D_PT_tools_posemode_options(View3DPanel, Panel):
         arm = context.active_object.data
 
         self.layout.prop(arm, "use_auto_ik")
+
 
 # ********** default tools for paint modes ****************
 
@@ -2088,6 +2116,9 @@ classes = (
     VIEW3D_PT_tools_mballedit,
 
     VIEW3D_PT_tools_latticeedit,
+
+    DAE_PoseROTMODEOperator,
+    DAE_PoseRELPARENTOperator,
 
     VIEW3D_PT_tools_posemode,
     VIEW3D_PT_tools_posemode_options,
