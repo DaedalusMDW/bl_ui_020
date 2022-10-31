@@ -252,7 +252,7 @@ class TEXTURE_PT_preview(TextureButtonsPanel, Panel):
 class TEXTURE_PT_colors(TextureButtonsPanel, Panel):
     bl_label = "Colors"
     bl_options = {'DEFAULT_CLOSED'}
-    COMPAT_ENGINES = {'BLENDER_RENDER'}
+    COMPAT_ENGINES = {'BLENDER_RENDER', 'BLENDER_GAME'}
 
     def draw(self, context):
         layout = self.layout
@@ -1104,6 +1104,7 @@ class TEXTURE_PT_mapping(TextureSlotPanel, Panel):
 
 class TEXTURE_PT_game_parallax(TextureSlotPanel, Panel):
     bl_label = "Parallax"
+    bl_options = {'DEFAULT_CLOSED'}
     COMPAT_ENGINES = {'BLENDER_GAME'}
 
     @classmethod
@@ -1523,8 +1524,6 @@ classes = (
     TEXTURE_PT_blend,
     TEXTURE_PT_stucci,
     TEXTURE_PT_image,
-    TEXTURE_PT_image_sampling,
-    TEXTURE_PT_image_mapping,
     TEXTURE_PT_envmap,
     TEXTURE_PT_envmap_sampling,
     TEXTURE_PT_musgrave,
@@ -1534,12 +1533,14 @@ classes = (
     TEXTURE_PT_pointdensity,
     TEXTURE_PT_pointdensity_turbulence,
     TEXTURE_PT_ocean,
-    TEXTURE_PT_game_mapping,
+    TEXTURE_PT_image_sampling,
+    TEXTURE_PT_image_mapping,
     TEXTURE_PT_mapping,
-    TEXTURE_PT_game_parallax,
-    TEXTURE_PT_game_influence,
     TEXTURE_PT_influence,
-    TEXTURE_PT_custom_props,
+    TEXTURE_PT_game_parallax,
+    TEXTURE_PT_game_mapping,
+    TEXTURE_PT_game_influence,
+    #TEXTURE_PT_custom_props,
 )
 
 if __name__ == "__main__":  # only for live edit.
