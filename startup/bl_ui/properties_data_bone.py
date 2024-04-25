@@ -30,7 +30,8 @@ class BoneButtonsPanel:
 
     @classmethod
     def poll(cls, context):
-        return (context.bone or context.edit_bone)
+        rd = context.scene.render
+        return (context.bone or context.edit_bone) and (rd.engine in cls.COMPAT_ENGINES)
 
 
 class BONE_PT_context_bone(BoneButtonsPanel, Panel):
@@ -148,7 +149,8 @@ class BONE_PT_transform_locks(BoneButtonsPanel, Panel):
 
 class BONE_PT_curved(BoneButtonsPanel, Panel):
     bl_label = "Bendy Bones"
-    #bl_options = {'DEFAULT_CLOSED'}
+    bl_options = {'DEFAULT_CLOSED'}
+    COMPAT_ENGINES = {'BLENDER_RENDER'}
 
     def draw(self, context):
         ob = context.object
@@ -454,11 +456,11 @@ classes = (
     BONE_PT_context_bone,
     BONE_PT_transform,
     BONE_PT_transform_locks,
-    BONE_PT_curved,
     BONE_PT_relations,
     BONE_PT_display,
     BONE_PT_inverse_kinematics,
     BONE_PT_deform,
+    BONE_PT_curved,
     #BONE_PT_custom_props,
 )
 

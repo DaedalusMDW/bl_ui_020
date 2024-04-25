@@ -692,10 +692,13 @@ class IMAGE_PT_view_properties(Panel):
 
         col = layout.column()
 
+        if ima:
+            col.prop(sima, "show_repeat", text="Repeat Image")
+            col.separator()
+
         if show_uvedit:
             col.label(text="Face Display:")
             col.prop(uvedit, "show_faces")
-            col.prop(sima, "show_repeat", text="Repeat Image")
             col.prop(uvedit, "show_stretch", text="Stretch")
             sub = col.row()
             sub.active = uvedit.show_stretch
